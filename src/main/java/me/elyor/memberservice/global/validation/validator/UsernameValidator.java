@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 public class UsernameValidator implements ConstraintValidator<Username, String> {
 
     private static final Pattern USERNAME_PATTERN = Pattern.compile("^[a-z0-9]*$");
+
     private int min;
     private int max;
 
@@ -25,7 +26,7 @@ public class UsernameValidator implements ConstraintValidator<Username, String> 
                 value.length() < min || value.length() > max)
             return false;
 
-        return USERNAME_PATTERN.matcher(value).matches();
+        return USERNAME_PATTERN.matcher(value).find();
     }
 
 }

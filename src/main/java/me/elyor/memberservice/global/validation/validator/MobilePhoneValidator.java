@@ -23,7 +23,7 @@ public class MobilePhoneValidator implements ConstraintValidator<MobilePhone, St
         if(optional && (value == null || value.isEmpty()))
             return true;
 
-        return MOBILE_PHONE_PATTERN.matcher(value).matches();
+        return MOBILE_PHONE_PATTERN.matcher(value).find();
     }
 
 }
