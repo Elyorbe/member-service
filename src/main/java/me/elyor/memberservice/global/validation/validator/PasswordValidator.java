@@ -14,12 +14,11 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
     * https://owasp.org/www-community/password-special-characters
     * */
 
-    private static final Pattern PASSWORD_PATTERN = Pattern.compile(
-            "(?=.*[0-9])" // at least one digit
-            + "(?=.*[a-z])" // at least one lowercase letter
-            + "(?=.*[A-Z])" // at least one capital letter
-            + "(?:.*[ !\"#$%&'()*+,-.\\/:;<=>?@\\[\\]^_`{|}~]){2}" // at least 2 special characters
-    , Pattern.MULTILINE);
+    private static final Pattern DIGIT_PATTERN = Pattern.compile("[0-9]");
+    private static final Pattern LOWER_CASE_ENGLISH_CHAR_PATTERN = Pattern.compile("[a-z]");
+    private static final Pattern UPPER_CASE_ENGLISH_CHAR_PATTERN = Pattern.compile("[A-Z]");
+    public static final Pattern SPECIAL_CHAR_PATTERN =
+            Pattern.compile("[ !\"#$%&'()*+,-.\\/:;<=>?@\\[\\]^_`{|}~]");
 
     private int min;
     private int max;
@@ -36,7 +35,22 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
                 value.length() < min || value.length() > max)
             return false;
 
-        return PASSWORD_PATTERN.matcher(value).find();
+        return hasDigit(value) && hasLowerUppercaseChars(value)
+                && hasAtLeastTwoSpecialChars(value);
+    }
+
+    private boolean hasDigit(String value) {
+        return DIGIT_PATTERN.matcher(value).find();
+    }
+
+    private boolean hasLowerUppercaseChars(String value) {
+        return LOWER_CASE_ENGLISH_CHAR_PATTERN.matcher(value).find()
+                && UPPER_CASE_ENGLISH_CHAR_PATTERN.matcher(value).find();
+    }
+
+    private boolean hasAtLeastTwoSpecialChars(String value) {
+        return SPECIAL_CHAR_PATTERN.matcher(value)
+                .results().count() >= 2;
     }
 
 }
