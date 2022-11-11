@@ -1,5 +1,6 @@
 package me.elyor.memberservice.crypto.encrypt;
 
+import me.elyor.memberservice.crypto.keygen.FixedKeyGenerator;
 import me.elyor.memberservice.crypto.keygen.KeyGenerator;
 import me.elyor.memberservice.crypto.keygen.SecureRandomKeyGenerator;
 
@@ -32,6 +33,7 @@ public class AesEncryptor implements Encryptor {
     public AesEncryptor(String secretKey) {
         this(secretKey.getBytes(StandardCharsets.UTF_8), null, Algorithm.GCM);
     }
+
     public AesEncryptor(byte[] secretKey, KeyGenerator ivGenerator, Algorithm algorithm) {
         this.secretKey = new SecretKeySpec(secretKey, "AES");
         this.ivGenerator = (ivGenerator != null) ? ivGenerator : algorithm.defaultIvGenerator();
@@ -62,7 +64,8 @@ public class AesEncryptor implements Encryptor {
     public enum Algorithm {
 
         //Only GCM for now. Later we may support other algorithms.
-        GCM(AES_GCM_ALGORITHM, new SecureRandomKeyGenerator(16));
+        GCM(AES_GCM_ALGORITHM, new SecureRandomKeyGenerator(16)),
+        GCM_FIXED_IV(AES_GCM_ALGORITHM, new FixedKeyGenerator());
 
         private final KeyGenerator ivGenerator;
 

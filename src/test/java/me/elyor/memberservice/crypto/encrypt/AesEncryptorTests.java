@@ -5,11 +5,34 @@ import me.elyor.memberservice.crypto.keygen.SecureRandomKeyGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AesEncryptorTests {
+
+    @Test
+    void whenEncryptWithFixedIvThenExpectTheSameHash() {
+        KeyGenerator keyGenerator = new SecureRandomKeyGenerator(16);
+        byte[] secretKey = keyGenerator.generateKey();
+        String beforeEncryption = "encryptionWithFixedIV";
+
+        Encryptor encryptor = new AesEncryptor(secretKey, null, AesEncryptor.Algorithm.GCM_FIXED_IV);
+        byte[] encryptedBytes = encryptor.encrypt(beforeEncryption.getBytes(StandardCharsets.UTF_8));
+        byte[] decryptedBytes = encryptor.decrypt(encryptedBytes);
+        String decrypted = new String(decryptedBytes, StandardCharsets.UTF_8);
+        assertEquals(beforeEncryption, decrypted);
+
+        encryptor = new AesEncryptor(secretKey, null, AesEncryptor.Algorithm.GCM_FIXED_IV);
+        byte[] first = encryptor.encrypt(beforeEncryption.getBytes(StandardCharsets.UTF_8));
+        encryptor = new AesEncryptor(secretKey, null, AesEncryptor.Algorithm.GCM_FIXED_IV);
+        byte[] second = encryptor.encrypt(beforeEncryption.getBytes(StandardCharsets.UTF_8));
+        assertArrayEquals(first, second);
+
+        String firstBase64Encoded = Base64.getEncoder().encodeToString(first);
+        String secondBase64Encoded = Base64.getEncoder().encodeToString(second);
+        assertEquals(firstBase64Encoded, secondBase64Encoded);
+    }
 
     @Test
     void whenEncryptAndDecryptWithTheSameSecretKeyThenCorrectEncryption() {
