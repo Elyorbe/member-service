@@ -1,4 +1,5 @@
 # Member Service
+
 무신사 과제
 
 ## Requirements
@@ -21,8 +22,7 @@ cd member-service
 ```shell
 ./gradlew bootJar
 ```
-위 명령어를 실행하면 build/libs/member-service-0.0.1.jar 파일이 새긴다
-
+위 명령어를 실행하면 build/libs/member-service-0.0.1.jar 파일이 만들어진다
 
 ## Run with Embedded DB
 디폴트 프로필은 test이고 임베디드 데이터베이스를 사용한다
