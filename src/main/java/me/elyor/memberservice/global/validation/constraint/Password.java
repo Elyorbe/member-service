@@ -16,7 +16,7 @@ public @interface Password {
 
     /**
      * Minimum length of a {@code password}.
-     * Default is 5
+     * Default is 8
      * */
     int min() default 8;
 
