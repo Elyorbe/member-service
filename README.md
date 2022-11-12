@@ -1,6 +1,6 @@
 # Member Service
 
-무신사 과제
+무신사 과제 서택 #1
 
 ## Requirements
 - Java 17 이상
