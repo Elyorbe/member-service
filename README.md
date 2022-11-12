@@ -31,7 +31,7 @@ cd member-service
 ./gradlew bootRun
 ```
 
-## Build and Run with MySql or MariaDB
+## Run with MySql or MariaDB
 
 `src/main/resources/application-local.yml`  및 `conf/flyway.conf`파일의 데이터베이스 URL, 사용자/비밀번호를 업데이트하고 db migration을한다:
 ```shell
