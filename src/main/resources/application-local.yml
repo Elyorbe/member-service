@@ -1,0 +1,38 @@
+server:
+  port: 8797
+  shutdown: GRACEFUL
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    me.elyor: DEBUG
+
+spring:
+  devtools:
+    livereload:
+      port: 35732
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: >
+      jdbc:mysql://localhost:3306/member_service?
+      autoReconnect=true&profileSQL=false&
+      maxQuerySizeToLog=4096&
+      serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
+    username: dev
+    password: dev
+
+  banner:
+    location: classpath:banner/local.txt
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  config-location: classpath:/config/mybatis-config.xml
+
+app:
+  cors:
+    allowed-origins:
+      - http://localhost:1024
+    allowed-methods: GET, HEAD, POST, PUT, DELETE, OPTIONS, PATCH
+  security:
+    key: fxBhQvyy1CO+Ju0IQQTLXQ==
